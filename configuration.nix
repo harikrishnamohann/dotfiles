@@ -17,7 +17,7 @@
 
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = ["nvidia"];
-
+  ## f*** nvidia things
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -48,7 +48,12 @@
   };
 
 
-  programs.fish.enable = true;
+  programs.command-not-found.enable = true;
+  programs.fish = {
+    enable = true;
+    generateCompletions = true;
+  };
+
   programs.git = {
     enable = true;
     config = {
