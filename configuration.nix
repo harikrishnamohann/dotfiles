@@ -2,30 +2,38 @@
 
 {
   imports = [
-      ./hardware-configuration.nix
-    ];
+    ./hardware-configuration.nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelParams = [ "i8042.nokbd" ];
 
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
   time.timeZone = "Asia/Kolkata";
   i18n.defaultLocale = "en_US.UTF-8";
+  i18n.supportedLocales = [ "all" ];
+
   hardware.graphics.enable = true;
+  services.xserver.videoDrivers = ["nvidia"];
 
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_IN";
-    LC_IDENTIFICATION = "en_IN";
-    LC_MEASUREMENT = "en_IN";
-    LC_MONETARY = "en_IN";
-    LC_NAME = "en_IN";
-    LC_NUMERIC = "en_IN";
-    LC_PAPER = "en_IN";
-    LC_TELEPHONE = "en_IN";
-    LC_TIME = "en_IN";
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    prime = {
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:6:0:0";
+      offload = {
+        enable = true;
+        enableOffloadCmd = true;
+      };
+    };
   };
-
 
   services.printing.enable = true;
   services.pulseaudio.enable = false;
@@ -35,6 +43,7 @@
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
+    alsa.support32Bit = true;
     wireplumber.enable = true;
   };
 
@@ -61,6 +70,19 @@
       tldr
       helix
       bat
+      gnome-text-editor
+      vlc
+      telegram-desktop
+      libreoffice
+      vscode
+      gimp
+      loupe # image viewer
+      baobab # disk usage analyzer
+      papers # document viewer
+      snapshot # camera app
+      resources # like btop
+      obsidian
+      pureref
     ];
   };
 
@@ -77,25 +99,13 @@
   services.xserver.enable = false;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
+  # garbage collection
+  nix.gc = {
+    automatic = true;    
+    dates = "weekly";
+    options = "--delete-older-than 10d";
+  };
+  nix.settings.auto-optimise-store = true;
 
   
   ##################
@@ -122,8 +132,9 @@
     nixdoc
     alacritty
     nautilus
-    nautilus-python
     hyprls
+    intel-vaapi-driver
+    intel-media-driver
   ];
 
   programs.dconf.profiles.user.databases = [
@@ -138,8 +149,11 @@
     }
   ];
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.GIO_EXTRA_MODULES = [ "${config.services.gvfs.package}/lib/gio/modules" ]; 
+  services.gvfs.enable = true;
 
   
   # don't change this
   system.stateVersion = "25.05";
 }
+
