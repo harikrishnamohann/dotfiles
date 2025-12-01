@@ -5,6 +5,7 @@ dirs=(
   hypr
   fish
   alacritty
+  mako
 )
 
 for dir in ${dirs[@]}; do

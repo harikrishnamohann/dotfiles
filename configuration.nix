@@ -47,6 +47,20 @@
     wireplumber.enable = true;
   };
 
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General = {
+        Experimental = true;
+        FastConnectable = true;
+        ControllerMode = "bredr";
+      };
+      Policy = {
+        AutoEnable = true;
+      };
+    };
+  };
 
   programs.command-not-found.enable = true;
   programs.fish = {
@@ -89,6 +103,9 @@
       resources # like btop
       obsidian
       pureref
+      gnome-calculator
+      gnome-calendar
+      gcolor3
     ];
   };
 
@@ -120,13 +137,15 @@
 
   # @HYPRLAND
   services.displayManager.ly.enable = true;
+  services.upower.enable = true;
+  services.power-profiles-daemon.enable = true;
+  services.hypridle.enable = true;
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
-    fuzzel
     wl-clipboard
     wlsunset
     playerctl
@@ -139,7 +158,18 @@
     alacritty
     nautilus
     hyprls
+    hyprpicker
+    fuzzel
+    hyprlock
+    mako
+    ashell
+    upower
+    power-profiles-daemon
+    networkmanagerapplet
+    cliphist
+    blueman
   ];
+
 
   programs.dconf.profiles.user.databases = [
     {

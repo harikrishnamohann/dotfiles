@@ -1,0 +1,39 @@
+log_level = "warn"
+position = "Top"
+app_launcher_cmd = "fuzzel --font='Adwaita:size=10' --terminal='alacritty -e'"
+enable_esc_key = true
+
+[modules]
+left = [[ "AppLauncher", "Workspaces" ], "MediaPlayer" ]
+center = [ "WindowTitle" ]
+right = [ [ "Tray", "Clock", "Privacy", "Settings" ] ]
+
+[window_title]
+truncate_title_after_length = 64
+
+[settings]
+lock_cmd = "playerctl --all-players pause; hyprlock &"
+wifi_more_cmd = "nm-connection-editor"
+vpn_more_cmd = "nm-connection-editor"
+bluetooth_more_cmd = "blueman-manager"
+remove_airplane_btn = true
+
+[appearance]
+style = "Islands"
+
+primary_color = "#FCE181"      # Pastel Yellow
+success_color = "#98FB98"      # Pale Green
+text_color = "#F8F8F2"         # Off-white
+workspace_colors = [ "#FCE181", "#D8BFD8" ] 
+
+[appearance.danger_color]
+base = "#FF6B6B"               # Soft Red
+weak = "#F4A460"               # Sandy Brown
+
+[appearance.background_color]
+base = "#313131"               # Blue-ish Grey (Dracula-like)
+weak = "#494949"               # Lighter Grey
+strong = "#6272A4"             # Muted Purple/Blue
+
+[appearance.secondary_color]
+base = "#0a0a0a"               # Dark Grey
