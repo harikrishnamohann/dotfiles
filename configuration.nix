@@ -105,6 +105,14 @@
       pureref
       gnome-calculator
       gnome-calendar
+      python315
+      ty
+      clang
+      clang-tools
+      lldb
+      lua
+      lua-language-server
+      bash-language-server
     ];
   };
 
@@ -158,7 +166,6 @@
     cliphist
     blueman
     hyprshot
-    hyprland-qtutils
   ];
 
   services.displayManager.ly.enable = true;
