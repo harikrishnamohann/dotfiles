@@ -1,11 +1,11 @@
-[general]
-import = ["onedark.toml"]
+general.import = [ "onelight.toml" ]
 
 [window]
 dimensions.columns = 80
 dimensions.lines = 20
 padding.x = 4
 padding.y = 4
+opacity = 0.82
 
 [font]
 normal.family = "Maple Mono NF"

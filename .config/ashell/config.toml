@@ -3,13 +3,22 @@ position = "Top"
 app_launcher_cmd = "fuzzel --terminal='alacritty -e'"
 enable_esc_key = true
 
+
 [modules]
 left = [[ "AppLauncher", "Workspaces" ], "MediaPlayer" ]
 center = [ "WindowTitle" ]
-right = [ [ "Tray", "Clock", "Privacy", "Settings" ] ]
+right = ["ThemeSwitcher", [ "Tray", "Clock", "Privacy", "Settings" ]]
 
 [window_title]
-truncate_title_after_length = 64
+truncate_title_after_length = 48
+
+[media_player]
+max_title_length = 48
+
+[[CustomModule]]
+name = "ThemeSwitcher"
+icon = "🌗"
+command = "~/.config/hypr/switch_theme.sh"
 
 [settings]
 lock_cmd = "playerctl --all-players pause; hyprlock &"
@@ -21,17 +30,17 @@ remove_airplane_btn = true
 [appearance]
 style = "Islands"
 
-primary_color = "#FCE181"      # Pastel Yellow
+primary_color = "#8cc7d4"      # Pastel Yellow
 success_color = "#98FB98"      # Pale Green
 text_color = "#F8F8F2"         # Off-white
-workspace_colors = [ "#FCE181", "#D8BFD8" ] 
+workspace_colors = [ "#8cc7d4", "#D8BFD8" ] 
 
 [appearance.danger_color]
 base = "#FF6B6B"               # Soft Red
 weak = "#F4A460"               # Sandy Brown
 
 [appearance.background_color]
-base = "#313131"               # Blue-ish Grey (Dracula-like)
+base = "#313131"               # panel color
 weak = "#494949"               # Lighter Grey
 strong = "#6272A4"             # Muted Purple/Blue
 

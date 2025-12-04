@@ -113,6 +113,7 @@
       lua
       lua-language-server
       bash-language-server
+      pastel
     ];
   };
 
@@ -165,6 +166,7 @@
     networkmanagerapplet
     cliphist
     blueman
+    hyprpicker
     hyprshot
   ];
 
