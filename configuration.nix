@@ -61,15 +61,6 @@
     wireplumber.enable = true;
   };
 
-  services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
-  "monitor.bluez.properties" = {
-      "bluez5.enable-sbc-xq" = true;
-      "bluez5.enable-msbc" = true;
-      "bluez5.enable-hw-volume" = true;
-      "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
-    };
-  };
-
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = false;
@@ -139,7 +130,6 @@
       showtime
       decibels
       wl-screenrec
-      gparted
     ];
   };
 
@@ -186,6 +176,7 @@
     adwaita-icon-theme
     hyprpolkitagent
     hyprpaper
+    gparted
     nixd
     nixdoc
     alacritty
@@ -194,7 +185,7 @@
     fuzzel
     pavucontrol
     hyprlock
-    mako
+    swaynotificationcenter
     ashell
     upower
     power-profiles-daemon

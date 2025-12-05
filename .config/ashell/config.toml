@@ -5,9 +5,9 @@ enable_esc_key = true
 
 
 [modules]
-left = [[ "AppLauncher", "Workspaces" ], "MediaPlayer" ]
+left = [[ "AppLauncher", "Workspaces" ]]
 center = [ "WindowTitle" ]
-right = ["ThemeSwitcher", [ "Tray", "Clock", "Privacy", "Settings" ]]
+right = ["ThemeSwitcher", [ "Tray", "Clock", "Privacy", "Settings" ], "Notifications"]
 
 [window_title]
 truncate_title_after_length = 48
@@ -19,6 +19,11 @@ max_title_length = 48
 name = "ThemeSwitcher"
 icon = "🌗"
 command = "~/.config/hypr/switch_theme.sh"
+
+[[CustomModule]]
+name = "Notifications"
+icon = "●"
+command = "swaync-client -t -sw"
 
 [settings]
 lock_cmd = "playerctl --all-players pause; hyprlock &"
