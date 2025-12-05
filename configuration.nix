@@ -18,7 +18,18 @@
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.supportedLocales = [ "all" ];
 
-  hardware.graphics.enable = true;
+  nixpkgs.config.packageOverrides = pkgs: {
+    intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+  };
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver
+      libvdpau-va-gl
+    ];
+  };
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
   services.xserver.videoDrivers = ["nvidia"];
   ## f*** nvidia things
   hardware.nvidia = {
@@ -39,9 +50,9 @@
   };
 
   services.printing.enable = true;
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
   services.libinput.enable = true;
+
+  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -50,7 +61,16 @@
     wireplumber.enable = true;
   };
 
-    hardware.bluetooth = {
+  services.pipewire.wireplumber.extraConfig.bluetoothEnhancements = {
+  "monitor.bluez.properties" = {
+      "bluez5.enable-sbc-xq" = true;
+      "bluez5.enable-msbc" = true;
+      "bluez5.enable-hw-volume" = true;
+      "bluez5.roles" = [ "hsp_hs" "hsp_ag" "hfp_hf" "hfp_ag" ];
+    };
+  };
+
+  hardware.bluetooth = {
     enable = true;
     powerOnBoot = false;
     settings = {
@@ -172,6 +192,7 @@
     nautilus
     hyprls
     fuzzel
+    pavucontrol
     hyprlock
     mako
     ashell

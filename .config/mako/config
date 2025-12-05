@@ -1,15 +1,15 @@
-max-history=3
+max-history=4
 
 background-color=#262626FF
 text-color=#FFFFFFFF
-border-color=#4D4D4DFF
+border-color=#808080FF
 progress-color=over #555555FF
 
 padding=15
 anchor=top-right
 
 border-radius=8
-border-size=2
+border-size=3
 
 font=Adwaita 12
 icons=1
@@ -18,5 +18,5 @@ icon-location=left
 
 markup=1
 actions=1
-default-timeout=5000
+default-timeout=7000
 ignore-timeout=0

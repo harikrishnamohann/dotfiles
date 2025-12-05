@@ -1,4 +1,4 @@
-general.import = [ "onelight.toml" ]
+general.import = [ "onedark.toml" ]
 
 [window]
 dimensions.columns = 80
