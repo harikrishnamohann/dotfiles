@@ -129,7 +129,6 @@
       pastel
       showtime
       decibels
-      wl-screenrec
     ];
   };
 
@@ -197,6 +196,9 @@
     rose-pine-hyprcursor
     xdg-desktop-portal
     xdg-desktop-portal-hyprland
+    wl-screenrec
+    libnotify
+    slurp
   ];
 
   services.displayManager.ly.enable = true;
