@@ -80,7 +80,12 @@
   programs.fish = {
     enable = true;
     generateCompletions = true;
+    shellAbbrs = {
+      nd = "nix develop";
+    };
+
   };
+  programs.fish.shellAbbrs = { gco = "git checkout"; npu = "nix-prefetch-url"; };
 
   programs.git = {
     enable = true;
@@ -91,44 +96,74 @@
     };
   };
 
-  programs.kdeconnect.enable = true;
+  programs.tmux = {
+    enable = true;
+    clock24 = true;
+    extraConfig = ''
+      set -g mode-keys vi
+      set-window-option -g mode-keys vi
+      set -g default-terminal "tmux-256color"
+      set -ag terminal-overrides ",xterm-256color:RGB"
+      set -g status-style bg=default
+      set-option -g status-position top
+      set -g mouse on
+      set -g base-index 1
+      set-window-option -g pane-base-index 1
+      set-option -g renumber-windows on
+
+      set -g escape-time 5
+
+      bind '"' split-window -c "#{pane_current_path}"
+      bind % split-window -h -c "#{pane_current_path}"
+
+      bind-key -T copy-mode-vi 'v' send -X begin-selection
+      bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel
+
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
+
+      bind -n M-H previous-window
+      bind -n M-L next-window
+    '';    
+  };
+
   users.users.hk = {
     isNormalUser = true;
     description = "Harikrishna Mohan";
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.fish;
     packages = with pkgs; [
-      tree
-      fastfetch
-      firefox
-      tldr
-      helix
-      bat
       gnome-text-editor
-      telegram-desktop
-      libreoffice
-      vscode
-      gimp
       loupe # image viewer
       baobab # disk usage analyzer
       papers # document viewer
       snapshot # camera app
+      showtime # video player
+      decibels # audio player
       resources # like btop
-      obsidian
-      pureref
       gnome-calculator
       gnome-calendar
+      tree
+      fastfetch
+      firefox
+      tldr
+      telegram-desktop
+      libreoffice
+      gimp
+      obsidian
+      pureref
       python315
-      ty
       clang
-      clang-tools
-      lldb
       lua
+      ty # lsp for python
+      lldb
+      clang-tools
       lua-language-server
       bash-language-server
       pastel
-      showtime
-      decibels
+      ffmpeg-full
     ];
   };
 
@@ -142,7 +177,6 @@
 
 
   nixpkgs.config.allowUnfree = true;
-  services.xserver.enable = false;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # garbage collection
@@ -168,6 +202,7 @@
 
   # @HYPRLAND
   environment.systemPackages = with pkgs; [
+    helix
     wl-clipboard
     wlsunset
     playerctl
@@ -199,12 +234,14 @@
     wl-screenrec
     libnotify
     slurp
+    glib
   ];
 
   services.displayManager.ly.enable = true;
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
   services.hypridle.enable = true;
+
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -222,10 +259,10 @@
     }
   ];
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-  environment.sessionVariables.GIO_EXTRA_MODULES = [ "${config.services.gvfs.package}/lib/gio/modules" ]; 
   services.gvfs.enable = true;
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables.GIO_EXTRA_MODULES = [ "${config.services.gvfs.package}/lib/gio/modules" ]; 
 
   
   # don't change this

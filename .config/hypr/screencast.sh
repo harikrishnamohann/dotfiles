@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 
+# Configure
 SPEC="-m 60 --low-power off --audio"
 # SPEC="--max-fps 60 --low-power off --audio --codec hevc --no-cursor"
 
@@ -12,12 +13,12 @@ OPT=$({
 	if pidof wl-screenrec>/dev/null; then
 		echo "stop"
 	fi
-	hyprctl monitors | awk ' /^Monitor/ { print $2 } END { print "region\nconfigure" }'
+	hyprctl monitors | awk ' /^Monitor/ { print $2 } END { print "region\nconfigure screencast" }'
 } | fuzzel --dmenu --hide-prompt)
 
 [[ "$OPT" == "" ]] && exit
 
-if [[ "$OPT" == "configure" ]]; then
+if [[ "$OPT" == "configure screencast" ]]; then
 	alacritty -e hx ~/.config/hypr/screencast.sh
 elif [[ "$OPT" == "stop" ]]; then
 	if pidof wl-screenrec; then
