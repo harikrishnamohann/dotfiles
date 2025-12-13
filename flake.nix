@@ -7,6 +7,7 @@
 
   outputs = { self, nixpkgs, ... }@inputs: {
     nixosConfigurations = {
+      system = "x86_64-linux";
       nixos = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs;

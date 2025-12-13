@@ -1,4 +1,4 @@
-general.import = [ "onedark.toml" ]
+general.import = [ "onelight.toml" ]
 
 [env]
 term= "xterm-256color"
