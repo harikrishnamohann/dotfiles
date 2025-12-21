@@ -164,8 +164,13 @@
       pastel
       ffmpeg-full
       rnote
+      man-pages
+      man-pages-posix
     ];
   };
+
+  documentation.dev.enable = true;
+  documentation.man.generateCaches = true;
 
   fonts.packages = with pkgs; [
     noto-fonts
