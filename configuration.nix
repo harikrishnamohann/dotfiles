@@ -168,7 +168,6 @@
       obsidian
       resources
       rnote
-      antigravity
       pixelorama
       krita
       kdePackages.kdenlive
@@ -230,6 +229,16 @@
     };
   };
 
+  services.searx = {
+    enable = true;
+    redisCreateLocally = true;
+    settings.server = {
+      bind_address = "127.0.0.1";
+      port = 8888;
+      secret_key = "itissecret";
+    };
+  };
+
   services.tailscale = {
     enable = true;
     extraSetFlags = [ "--operator=hk" ];
@@ -238,7 +247,7 @@
   services.openssh = {
     enable = true;
     settings = {
-      PasswordAuthentication = true; 
+      PasswordAuthentication = false; 
       PermitRootLogin = "no";
     };
   };
