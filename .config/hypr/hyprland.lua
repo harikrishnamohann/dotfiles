@@ -96,11 +96,15 @@ hl.monitor({
 ---- AUTOSTART ----
 -------------------
 hl.on("hyprland.start", function()
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
+    hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP HYPRLAND_INSTANCE_SIGNATURE")
+    hl.exec_cmd("systemctl --user start graphical-session.target")
+    hl.exec_cmd("systemctl --user restart xdg-desktop-portal")
     hl.exec_cmd("awww-daemon")
     hl.exec_cmd("sleep 1 && awww img " .. getrandom_wallp("~/Pictures/walls"))
     hl.exec_cmd("hyprsunset")
+    hl.exec_cmd("swayidle")
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
-    hl.exec_cmd("hypridle")
     hl.exec_cmd("wl-paste --watch cliphist store")
     hl.exec_cmd("ashell")
 end)
@@ -368,11 +372,11 @@ hl.permission({ binary = "^/nix/store/[a-z0-9]{32}-hyprlock-[0-9.]+.*/bin/hyprlo
 ----------------
 -- ANIMATIONS --
 ----------------
-local SPEED_FAC = 0.9
+local SPEED_FAC = 0.8
 hl.curve("easeOutQuint",   { type = "bezier", points = { {0.23, 1},    {0.32, 1}    } })
 hl.curve("almostLinear",   { type = "bezier", points = { {0.5, 0.5},   {0.75, 1}    } })
 hl.curve("quick",          { type = "bezier", points = { {0.15, 0},    {0.1, 1}     } })
-hl.curve("snappySpring",   { type = "spring", mass = 1, stiffness = 110, dampening = 20 })
+hl.curve("snappySpring",   { type = "spring", mass = 1, stiffness = 1000, dampening = 46 })
 
 hl.animation({ leaf = "global",        enabled = true,  speed = 3.0 * SPEED_FAC,    bezier = "quick" })
 

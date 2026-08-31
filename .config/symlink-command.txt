@@ -2,6 +2,6 @@
 
 for dir in *
     if test -d $dir
-        ln --symbolic -n "/home/hk/dotfiles/.config/$dir" "/home/hk/.config/$dir"
+        ln --symbolic -n ~/dotfiles/.config/$dir ~/.config/$dir
     end
 end

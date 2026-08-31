@@ -1,0 +1,8 @@
+timeout 240 'brightnessctl -s set 20%-' resume 'brightnessctl -r'
+
+timeout 600 'loginctl lock-session & hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on && brightnessctl -r'
+
+timeout 1500 'systemctl suspend'
+
+before-sleep 'loginctl lock-session'
+lock 'hyprlock'

@@ -27,10 +27,10 @@
     # Optional fail-safe: Ensure the internal keyboard matrix can't circumvent sleep
     SUBSYSTEM=="input", ATTRS{name}=="AT Translated Set 2 keyboard", ENV{LIBINPUT_IGNORE_DEVICE}="1"
   '';
+
   services.logind.settings.Login = {
     HandlePowerKey = "hibernate";
     HandleLidSwitchExternalPower = "suspend";
-    # HandleLidSwitch = "suspend-them-hibernate";
     HandleLidSwitch = "suspend";
   };
   # systemd.sleep.settings.Sleep = { HibernateDelaySec = "1h"; };
@@ -52,12 +52,13 @@
       libvdpau-va-gl
     ];
   };
-  services.xserver.videoDrivers = ["nvidia"];
+
   ## f*** nvidia things
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
     modesetting.enable = true;
-    powerManagement.enable = true;
-    powerManagement.finegrained = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.legacy_535;
@@ -161,7 +162,6 @@
       loupe # image viewer
       baobab # disk usage analyzer
       papers # document viewer
-      snapshot # camera app
       gnome-calculator
       telegram-desktop
       gimp
@@ -175,8 +175,9 @@
       libreoffice
       pureref
       zen-browser
+      google-chrome
       vlc
-      showtime
+      showtime # video player
       nautilus
       nautilus-open-any-terminal
     ];
@@ -345,11 +346,9 @@
     hyprpolkitagent
     hyprlock
     hyprshot
-    hypridle
+    swayidle
     rose-pine-hyprcursor
     hyprpicker
-    xdg-desktop-portal
-    xdg-desktop-portal-hyprland
     pavucontrol
   ];
 
@@ -359,15 +358,22 @@
   services.displayManager.defaultSession = "hyprland";
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
+  services.gnome.tinysparql.enable = true;
+  services.gnome.localsearch.enable = true;
+ 
+  security.pam.services.hyprlock = {};
 
+  programs.dconf.enable = true;
   programs.dconf.profiles.user.databases = [
     {
-      settings."org/gnome/desktop/interface" = {
-        gtk-theme = "Adwaita";
-        icon-theme = "Adwaita";
-        font-name = "Adwaita Sans Medium 12";
-        document-font-name = "Adwaita Sans Medium 12";
-        monospace-font-name = "Maple Mono NL Medium 12";
+      settings = {
+        "org/gnome/desktop/interface" = {
+          gtk-theme = "Adwaita";
+          icon-theme = "Adwaita";
+          font-name = "Adwaita Sans Medium 12";
+          document-font-name = "Adwaita Sans Medium 12";
+          monospace-font-name = "Maple Mono NL Medium 12";
+        };
       };
     }
   ];
@@ -377,7 +383,10 @@
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-    config.common.default = "*";
+    config = {
+      common.default = [ "gtk" ];
+      hyprland.default = [ "hyprland" "gtk" ];
+    };
   };
 
   environment.sessionVariables = { 
