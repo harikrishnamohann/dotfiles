@@ -350,12 +350,19 @@
     rose-pine-hyprcursor
     hyprpicker
     pavucontrol
+    gsettings-desktop-schemas
+    xdg-desktop-portal-hyprland
   ];
 
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
 
-  services.displayManager.ly.enable = true;
-  services.displayManager.defaultSession = "hyprland";
+  # display manager
+  services.displayManager.gdm.enable = true;
+  services.displayManager.defaultSession = "hyprland-uwsm";
+
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
   services.gnome.tinysparql.enable = true;
@@ -370,8 +377,8 @@
         "org/gnome/desktop/interface" = {
           gtk-theme = "Adwaita";
           icon-theme = "Adwaita";
-          font-name = "Adwaita Sans Medium 12";
-          document-font-name = "Adwaita Sans Medium 12";
+          font-name = "Adwaita Sans Regular 12";
+          document-font-name = "Adwaita Sans Regular 12";
           monospace-font-name = "Maple Mono NL Medium 12";
         };
       };
@@ -382,10 +389,10 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = with pkgs; [ xdg-desktop-portal-hyprland ];
     config = {
       common.default = [ "gtk" ];
-      hyprland.default = [ "hyprland" "gtk" ];
+      hyprland.default = [ "gtk" ];
     };
   };
 
